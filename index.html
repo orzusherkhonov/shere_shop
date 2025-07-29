@@ -21,24 +21,37 @@
             margin-left: auto;
             margin-right: auto;
         }
-        /* Убираем плавный скролл, так как теперь это отдельные страницы */
-        html {
-            scroll-behavior: auto;
+        /* Стили для мобильного меню */
+        .mobile-menu {
+            display: none; /* Скрыто по умолчанию */
+            flex-direction: column;
+            width: 100%;
+            background-color: #ffffff;
+            position: absolute;
+            top: 100%; /* Позиционируем под шапкой */
+            left: 0;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            border-radius: 0 0 0.75rem 0.75rem;
+        }
+        .mobile-menu.active {
+            display: flex; /* Показываем, когда активно */
         }
     </style>
 </head>
 <body class="min-h-screen">
     <!-- Шапка сайта -->
     <header class="bg-white shadow-md p-4 md:p-6 sticky top-0 z-10">
-      <nav class="container mx-auto flex justify-between items-center">
+      <nav class="container mx-auto flex justify-between items-center relative">
         <a href="index.html" class="text-2xl font-bold text-gray-800 rounded-md p-2 hover:bg-gray-100 transition duration-300">
           Shere's Shop
         </a>
-        <div class="space-x-4 hidden md:flex"> <!-- Скрываем на мобильных, показываем на десктопе -->
+        <!-- Навигационные ссылки для десктопа -->
+        <div class="space-x-4 hidden md:flex">
           <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300 rounded-md p-2 hover:bg-blue-50">
             Главная
           </a>
-          <a href="#products" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300 rounded-md p-2 hover:bg-blue-50">
+          <a href="index.html#products" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300 rounded-md p-2 hover:bg-blue-50">
             Магазин
           </a>
           <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300 rounded-md p-2 hover:bg-blue-50">
@@ -48,11 +61,18 @@
             Контакты
           </a>
         </div>
-        <!-- Мобильное меню (можно добавить иконку бургера и JS для открытия) -->
+        <!-- Кнопка мобильного меню (гамбургер) -->
         <div class="md:hidden">
-            <button class="text-gray-600 hover:text-blue-600 focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
+        </div>
+        <!-- Мобильное меню (скрыто по умолчанию, показывается JS) -->
+        <div id="mobile-menu-links" class="mobile-menu md:hidden">
+            <a href="index.html" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 transition duration-300">Главная</a>
+            <a href="index.html#products" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 transition duration-300">Магазин</a>
+            <a href="about.html" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 transition duration-300">О нас</a>
+            <a href="contact.html" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 transition duration-300">Контакты</a>
         </div>
       </nav>
     </header>
@@ -207,5 +227,26 @@
         <p class="mt-2">Создано с ❤️ для тебя.</p>
       </div>
     </footer>
+
+    <script>
+        // JavaScript для мобильного меню
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenuLinks = document.getElementById('mobile-menu-links');
+
+            if (mobileMenuButton && mobileMenuLinks) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenuLinks.classList.toggle('active'); // Переключаем класс 'active'
+                });
+
+                // Закрываем меню при клике на ссылку (чтобы оно не оставалось открытым)
+                mobileMenuLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenuLinks.classList.remove('active');
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
