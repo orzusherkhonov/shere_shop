@@ -3,186 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luminixis - Where Code Meets Couture</title>
-    
+    <title>Luminixis - AI-crafted Fashion & Digital Art</title>
+    <!-- Подключение Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <!-- Подключение шрифта Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* Анимация для фона */
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Основные стили для тела страницы */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #0f172a; /* Темный фон */
+            color: #e2e8f0; /* Светлый текст */
         }
-        /* Анимация для пульсирующего свечения карточек */
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.3), 0 0 20px rgba(59, 130, 246, 0.2); }
-            50% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.5), 0 0 50px rgba(59, 130, 246, 0.4); }
-            100% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.3), 0 0 20px rgba(59, 130, 246, 0.2); }
+        /* Общие стили для контейнеров */
+        .container {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
-        .animated-gradient {
-            background: linear-gradient(-45deg, #020617, #030712, #111827, #082f49);
-            background-size: 400% 400%;
-            animation: gradient-animation 15s ease infinite;
-        }
-        .card-glow { animation: pulse-glow 4s ease-in-out infinite; }
+        /* Стили для мобильного меню */
         .mobile-menu {
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%); /* Изначально скрыто справа */
+            transition: transform 0.3s ease-in-out; /* Плавный переход */
+            display: flex; /* Flexbox для элементов меню */
+            flex-direction: column;
+            width: 100%;
+            max-width: 300px; /* Ограничиваем ширину мобильного меню */
+            background-color: #1a202c;
+            position: fixed; /* Фиксированное позиционирование */
+            top: 0;
+            right: 0;
+            height: 100%; /* На всю высоту экрана */
+            box-shadow: -8px 0 16px rgba(0,0,0,0.3);
+            padding: 2rem 1rem;
+            z-index: 40; /* Поверх другого контента */
         }
-        .mobile-menu.is-open { transform: translateX(0); }
-        html { scroll-behavior: smooth; }
+        .mobile-menu.is-open {
+            transform: translateX(0); /* Показываем, сдвигая влево */
+        }
+        /* Стили для карточек NFT/продуктов */
+        .nft-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .nft-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        /* Основные стили для кнопок */
+        .btn-primary {
+            background-color: #6366f1;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 0.75rem 1.75rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: #4f46e5;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: #334155;
+            color: #e2e8f0;
+            font-weight: 600;
+            padding: 0.75rem 1.75rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .btn-secondary:hover {
+            background-color: #475569;
+            transform: translateY(-2px);
+        }
+        /* Стили для футера */
+        footer {
+            background-color: #0c121d;
+        }
+        /* Плавный скролл для якорных ссылок */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Стили для модального окна */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: #1e293b;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+        .modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #e2e8f0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
     </style>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { 'sans': ['Inter', 'sans-serif'] },
-                    boxShadow: {
-                        'glow-blue-strong': '0 0 30px rgba(59, 130, 246, 0.7), 0 0 15px rgba(59, 130, 246, 0.9)',
-                    }
-                }
-            }
-        }
-    </script>
 </head>
-
 <body class="animated-gradient text-gray-300 font-sans overflow-x-hidden relative">
-
-    <!-- БЛИКИ СВЕТА НА ФОНЕ -->
+    <!-- Анимированный фон (из PDF) -->
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div class="absolute top-[-20%] left-[-20%] w-[600px] h-[600px] bg-blue-700/30 rounded-full filter blur-3xl opacity-50 animate-pulse"></div>
         <div class="absolute bottom-[-20%] right-[-20%] w-[500px] h-[500px] bg-purple-700/30 rounded-full filter blur-3xl opacity-40 animate-pulse" style="animation-delay: 2s;"></div>
         <div class="absolute top-[30%] right-[-10%] w-[400px] h-[400px] bg-teal-600/20 rounded-full filter blur-3xl opacity-50 animate-pulse" style="animation-delay: 4s;"></div>
     </div>
 
-    <!-- ШАПКА САЙТА -->
+    <!-- Шапка сайта -->
     <header class="fixed top-0 left-0 w-full z-50">
         <div class="absolute top-0 left-0 w-full h-full bg-slate-900/60 backdrop-blur-lg border-b border-white/10"></div>
         <nav class="relative container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold tracking-widest text-white uppercase">Luminixis</a>
+
+            <!-- Навигационные ссылки для десктопа -->
             <ul class="hidden md:flex items-center space-x-6 text-sm font-semibold text-gray-300">
                 <li><a href="#collection" class="hover:text-blue-400 transition-colors">Коллекция</a></li>
                 <li><a href="#roadmap" class="hover:text-blue-400 transition-colors">Roadmap</a></li>
-                <!-- ИСПРАВЛЕНО: Убран target="_blank" -->
                 <li><a href="about.html" class="hover:text-blue-400 transition-colors">О нас</a></li>
                 <li><a href="contact.html" class="hover:text-blue-400 transition-colors">Контакты</a></li>
+                <!-- Кнопки аутентификации для десктопа -->
+                <li class="ml-6">
+                    <button id="login-button-desktop" class="btn-primary text-sm py-2 px-4">Войти / Зарегистрироваться</button>
+                    <div id="auth-status-desktop" class="hidden items-center space-x-2">
+                        <span id="user-email-display-desktop" class="text-gray-300 text-sm"></span>
+                        <button id="logout-button-desktop" class="btn-secondary text-sm py-2 px-4">Выйти</button>
+                    </div>
+                </li>
             </ul>
+
+            <!-- Кнопка мобильного меню (гамбургер) -->
             <button id="menu-btn" class="md:hidden text-white z-50">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
             </button>
         </nav>
     </header>
 
-    <!-- Мобильное меню -->
-    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-full max-w-xs bg-slate-900/90 backdrop-blur-xl z-40 p-8">
+    <!-- Мобильное меню (скрыто по умолчанию, показывается JS) -->
+    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-full bg-slate-900/90 backdrop-blur-xl z-40 p-8">
+        <button id="close-mobile-menu-btn" class="absolute top-4 right-4 text-white text-3xl">&times;</button>
         <ul class="flex flex-col space-y-8 mt-16 text-lg font-semibold text-center text-gray-200">
-             <li><a href="#collection" class="menu-link hover:text-blue-400">Коллекция</a></li>
-             <li><a href="#roadmap" class="menu-link hover:text-blue-400">Roadmap</a></li>
-             <!-- ИСПРАВЛЕНО: Убран target="_blank" -->
-             <li><a href="about.html" class="menu-link hover:text-blue-400">О нас</a></li>
-             <li><a href="contact.html" class="menu-link hover:text-blue-400">Контакты</a></li>
+            <li><a href="#collection" class="menu-link hover:text-blue-400">Коллекция</a></li>
+            <li><a href="#roadmap" class="menu-link hover:text-blue-400">Roadmap</a></li>
+            <li><a href="about.html" class="menu-link hover:text-blue-400">О нас</a></li>
+            <li><a href="contact.html" class="menu-link hover:text-blue-400">Контакты</a></li>
+            <!-- Кнопки аутентификации для мобильного меню -->
+            <li class="mt-8 pt-4 border-t border-gray-700">
+                <button id="login-button-mobile" class="btn-primary w-full mb-4">Войти / Зарегистрироваться</button>
+                <div id="auth-status-mobile" class="hidden flex flex-col items-center space-y-4">
+                    <span id="user-email-display-mobile" class="text-gray-300 text-base"></span>
+                    <button id="logout-button-mobile" class="btn-secondary w-full">Выйти</button>
+                </div>
+            </li>
         </ul>
     </div>
 
-    <main>
-        <!-- ПРОМО-БЛОК -->
+    <main class="flex-grow pt-20"> <!-- Добавлен padding-top для фикс. шапки -->
+        <!-- Секция Героя -->
         <section class="h-screen flex items-center justify-center text-center relative">
             <div class="container mx-auto px-6 z-10">
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white uppercase tracking-wider leading-tight">
-                    Digital <span class="text-blue-500">Aura</span><br>Physical Form
-                </h1>
-                <p class="mt-4 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-                    Мы создаем цифровую моду с помощью искусственного интеллекта. Каждое изделие — это уникальный синтез алгоритмов и эстетики.
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white uppercase tracking-wider leading-tight">Digital <span class="text-blue-500">Aura</span><br>Physical Form</h1>
+                <p class="mt-4 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">Мы создаем цифровую моду с помощью искусственного интеллекта. Каждое изделие это уникальный синтез алгоритмов и эстетики.</p>
+                <a href="#collection" class="mt-8 inline-block bg-blue-600/80 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 hover:bg-blue-500 hover:shadow-glow-blue-strong hover:scale-105">Исследовать Коллекцию</a>
+            </div>
+        </section>
+
+        <!-- Секция О проекте -->
+        <section id="about" class="py-16 px-4 bg-gray-800">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl font-bold mb-8 text-white">О Luminixis</h2>
+                <p class="text-lg mb-6 max-w-4xl mx-auto text-gray-300">
+                    Luminixis — это пионерский проект на стыке искусственного интеллекта, моды и цифрового искусства.
+                    Мы создаем уникальные NFT, которые представляют собой не просто изображения, а концепции
+                    "носимых мечтаний" — инновационного дизайна и футуристической эстетики.
                 </p>
-                <a href="#collection" class="mt-8 inline-block bg-blue-600/80 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 hover:bg-blue-500 hover:shadow-glow-blue-strong hover:scale-105">
-                    Исследовать Коллекцию
-                </a>
+                <p class="text-lg max-w-4xl mx-auto text-gray-300">
+                    Каждое произведение Luminixis генерируется с помощью передовых алгоритмов ИИ, что обеспечивает
+                    беспрецедентную оригинальность и глубину. Мы верим, что будущее моды и искусства лежит в синергии
+                    человеческого творчества и машинного интеллекта.
+                </p>
             </div>
         </section>
 
-        <!-- СЕКЦИЯ КОЛЛЕКЦИИ -->
-        <section id="collection" class="py-20">
-            <div class="container mx-auto px-6">
-                
-                <!-- Категория: Premium -->
-                <div class="mb-20">
-                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-2 text-white">Premium Archive</h2>
-                    <p class="text-center text-purple-400 mb-10">Эксклюзивные изделия, выпущенные в единственном экземпляре.</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="group relative bg-slate-900/50 border border-purple-500/30 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 hover:scale-105 hover:shadow-glow-blue-strong card-glow">
-                            <div class="aspect-w-3 aspect-h-4"><svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="grad1" cx="50%" cy="100%" r="100%"><stop offset="0%" stop-color="#ec4899" /><stop offset="100%" stop-color="transparent" /></radialGradient></defs><rect width="300" height="400" fill="url(#grad1)" opacity="0.4" /></svg></div>
-                            <div class="p-6 absolute bottom-0 left-0"><h3 class="text-xl font-bold text-white">Aura-7 Visor</h3><p class="text-sm text-gray-400 mt-1">Кибернетический визор.</p></div>
-                        </div>
-                        <div class="group relative bg-slate-900/50 border border-purple-500/30 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 hover:scale-105 hover:shadow-glow-blue-strong card-glow" style="animation-delay: 1s;">
-                           <div class="aspect-w-3 aspect-h-4"><svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="grad2" cx="50%" cy="100%" r="100%"><stop offset="0%" stop-color="#a855f7" /><stop offset="100%" stop-color="transparent" /></radialGradient></defs><rect width="300" height="400" fill="url(#grad2)" opacity="0.4" /></svg></div>
-                            <div class="p-6 absolute bottom-0 left-0"><h3 class="text-xl font-bold text-white">Nebula Coat</h3><p class="text-sm text-gray-400 mt-1">Плащ с эффектом туманности.</p></div>
-                        </div>
-                        <div class="group relative bg-slate-900/50 border border-purple-500/30 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 hover:scale-105 hover:shadow-glow-blue-strong card-glow" style="animation-delay: 2s;">
-                            <div class="aspect-w-3 aspect-h-4"><svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="grad3" cx="50%" cy="100%" r="100%"><stop offset="0%" stop-color="#f43f5e" /><stop offset="100%" stop-color="transparent" /></radialGradient></defs><rect width="300" height="400" fill="url(#grad3)" opacity="0.4" /></svg></div>
-                            <div class="p-6 absolute bottom-0 left-0"><h3 class="text-xl font-bold text-white">Echo-Shell</h3><p class="text-sm text-gray-400 mt-1">Адаптивная броня.</p></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Категория: Cyber-Wear -->
-                <div class="mb-20">
-                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-2 text-white">Cyber-Wear</h2>
-                    <p class="text-center text-teal-400 mb-10">Функциональная одежда для цифрового мира.</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div class="group relative aspect-square bg-slate-900/50 border border-teal-500/30 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-                            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="grad_cw1" cx="50%" cy="100%" r="100%"><stop offset="0%" stop-color="#2dd4bf" /><stop offset="100%" stop-color="transparent" /></radialGradient></defs><rect width="100" height="100" fill="url(#grad_cw1)" opacity="0.3" /></svg>
-                            <div class="absolute bottom-0 left-0 p-5"><h3 class="font-semibold text-white">Grid Runner</h3></div>
-                        </div>
-                        <div class="group relative aspect-square bg-slate-900/50 border border-teal-500/30 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-                            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="grad_cw2" cx="50%" cy="100%" r="100%"><stop offset="0%" stop-color="#67e8f9" /><stop offset="100%" stop-color="transparent" /></radialGradient></defs><rect width="100" height="100" fill="url(#grad_cw2)" opacity="0.3" /></svg>
-                            <div class="absolute bottom-0 left-0 p-5"><h3 class="font-semibold text-white">Datastream Tunic</h3></div>
-                        </div>
-                        <div class="group relative aspect-square bg-slate-900/50 border border-teal-500/30 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-                            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="grad_cw3" cx="50%" cy="100%" r="100%"><stop offset="0%" stop-color="#5eead4" /><stop offset="100%" stop-color="transparent" /></radialGradient></defs><rect width="100" height="100" fill="url(#grad_cw3)" opacity="0.3" /></svg>
-                            <div class="absolute bottom-0 left-0 p-5"><h3 class="font-semibold text-white">Node Gauntlets</h3></div>
-                        </div>
-                        <div class="group relative aspect-square bg-slate-900/50 border border-teal-500/30 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-                            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="grad_cw4" cx="50%" cy="100%" r="100%"><stop offset="0%" stop-color="#99f6e4" /><stop offset="100%" stop-color="transparent" /></radialGradient></defs><rect width="100" height="100" fill="url(#grad_cw4)" opacity="0.3" /></svg>
-                            <div class="absolute bottom-0 left-0 p-5"><h3 class="font-semibold text-white">Hexa-Boots</h3></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Категория: Genesis Classics -->
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-2 text-white">Genesis Classics</h2>
-                    <p class="text-center text-gray-400 mb-10">Первые концепты, определившие наш стиль.</p>
-                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div class="group relative aspect-square bg-slate-900/50 border border-gray-500/30 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-                             <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="grad_cl1" cx="50%" cy="100%" r="100%"><stop offset="0%" stop-color="#e5e7eb" /><stop offset="100%" stop-color="transparent" /></radialGradient></defs><rect width="100" height="100" fill="url(#grad_cl1)" opacity="0.1" /></svg>
-                             <div class="absolute bottom-0 left-0 p-5"><h3 class="font-semibold text-white">LMX-001</h3></div>
-                        </div>
-                        <div class="group relative aspect-square bg-slate-900/50 border border-gray-500/30 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-                            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="grad_cl2" cx="50%" cy="100%" r="100%"><stop offset="0%" stop-color="#d1d5db" /><stop offset="100%" stop-color="transparent" /></radialGradient></defs><rect width="100" height="100" fill="url(#grad_cl2)" opacity="0.1" /></svg>
-                             <div class="absolute bottom-0 left-0 p-5"><h3 class="font-semibold text-white">LMX-002</h3></div>
-                        </div>
-                        <div class="group relative aspect-square bg-slate-900/50 border border-gray-500/30 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-                            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="grad_cl3" cx="50%" cy="100%" r="100%"><stop offset="0%" stop-color="#9ca3af" /><stop offset="100%" stop-color="transparent" /></radialGradient></defs><rect width="100" height="100" fill="url(#grad_cl3)" opacity="0.1" /></svg>
-                             <div class="absolute bottom-0 left-0 p-5"><h3 class="font-semibold text-white">LMX-003</h3></div>
-                        </div>
-                        <div class="group relative aspect-square bg-slate-900/50 border border-gray-500/30 rounded-2xl overflow-hidden backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 hover:scale-105">
-                            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="grad_cl4" cx="50%" cy="100%" r="100%"><stop offset="0%" stop-color="#6b7280" /><stop offset="100%" stop-color="transparent" /></radialGradient></defs><rect width="100" height="100" fill="url(#grad_cl4)" opacity="0.1" /></svg>
-                             <div class="absolute bottom-0 left-0 p-5"><h3 class="font-semibold text-white">LMX-004</h3></div>
-                        </div>
-                    </div>
+        <!-- Секция Коллекций (здесь будут динамические NFT) -->
+        <section id="collection" class="py-16 px-4 bg-gray-900">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-12 text-white">Наши Коллекции</h2>
+                <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Продукты будут загружены сюда из Firestore -->
+                    <p class="text-center text-gray-400 col-span-full">Загрузка продуктов...</p>
                 </div>
             </div>
         </section>
 
-        <!-- СЕКЦИЯ ROADMAP -->
-        <section id="roadmap" class="py-20">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white"><span class="text-blue-500">Roadmap</span> Проекта</h2>
+        <!-- Секция Roadmap -->
+        <section id="roadmap" class="py-16 px-4 bg-gray-800">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-12 text-white"><span class="text-blue-500">Roadmap</span> Проекта</h2>
                 <div class="relative max-w-2xl mx-auto">
                     <div class="absolute left-1/2 top-0 h-full w-0.5 bg-blue-500/30 -translate-x-1/2"></div>
                     <div class="space-y-16">
@@ -205,7 +240,7 @@
                             <div class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-blue-500 rounded-full border-4 border-slate-900"></div>
                         </div>
                         <div class="relative flex items-center md:justify-start">
-                             <div class="w-full md:w-1/2 md:pr-8 text-center md:text-right">
+                            <div class="w-full md:w-1/2 md:pr-8 text-center md:text-right">
                                 <div class="bg-slate-900/50 border border-white/10 p-6 rounded-lg backdrop-blur-lg">
                                     <h3 class="font-bold text-xl text-blue-400">Q3: Инновации</h3>
                                     <p class="text-gray-400 mt-2">Новые ИИ-алгоритмы, коллаборации с брендами.</p>
@@ -217,23 +252,87 @@
                 </div>
             </div>
         </section>
+
+        <!-- Секция Контакты -->
+        <section id="contact" class="py-16 px-4 bg-gray-900">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl font-bold mb-8 text-white">Свяжитесь с нами</h2>
+                <p class="text-lg mb-6 max-w-2xl mx-auto text-gray-300">
+                    Есть вопросы или предложения? Мы всегда открыты для общения!
+                </p>
+                <div class="space-y-4 text-center text-gray-300">
+                    <p class="text-xl">
+                        <span class="font-semibold">Email:</span> <a href="mailto:info@luminixis.com" class="text-blue-400 hover:underline">info@luminixis.com</a>
+                    </p>
+                    <p class="text-xl">
+                        <span class="font-semibold">Twitter:</span> <a href="https://twitter.com/luminixis" target="_blank" class="text-blue-400 hover:underline">@LuminixisOfficial</a>
+                    </p>
+                    <p class="text-xl">
+                        <span class="font-semibold">Discord:</span> <a href="https://discord.gg/luminixis" target="_blank" class="text-blue-400 hover:underline">Присоединиться к Discord</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция для добавления продукта (видна только авторизованным пользователям) -->
+        <section id="add-product-section" class="py-16 px-4 bg-gray-700 hidden">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-8 text-white">Добавить новый продукт</h2>
+                <form id="add-product-form" class="max-w-xl mx-auto bg-gray-800 p-8 rounded-xl shadow-lg space-y-4">
+                    <div>
+                        <label for="product-name" class="block text-gray-300 text-sm font-bold mb-2">Название продукта:</label>
+                        <input type="text" id="product-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600" required>
+                    </div>
+                    <div>
+                        <label for="product-description" class="block text-gray-300 text-sm font-bold mb-2">Описание:</label>
+                        <textarea id="product-description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600 h-24" required></textarea>
+                    </div>
+                    <div>
+                        <label for="product-price" class="block text-gray-300 text-sm font-bold mb-2">Цена (например, 0.5 ETH):</label>
+                        <input type="text" id="product-price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600" required>
+                    </div>
+                    <div>
+                        <label for="product-image" class="block text-gray-300 text-sm font-bold mb-2">URL изображения:</label>
+                        <input type="url" id="product-image" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600">
+                    </div>
+                    <button type="submit" class="btn-primary w-full">Добавить продукт</button>
+                </form>
+            </div>
+        </section>
     </main>
 
-    <!-- ПОДВАЛ -->
-    <footer class="border-t border-white/10 mt-20">
-        <div class="container mx-auto px-6 py-8 text-center text-gray-500 text-sm">
-            <p>&copy; 2025 Luminixis. All rights reserved.</p>
-            <p class="mt-2">The future of fashion is not worn, it's experienced.</p>
-        </div>
+    <!-- Футер сайта -->
+    <footer class="bg-gray-950 text-gray-500 py-8 px-4">
+      <div class="container mx-auto text-center text-sm">
+        <p>&copy; 2025 Luminixis. Все права защищены.</p>
+        <p class="mt-2">AI-crafted fashion & digital art.</p>
+      </div>
     </footer>
 
-    <script>
-        const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuLinks = document.querySelectorAll('.menu-link');
-        function toggleMenu() { mobileMenu.classList.toggle('is-open'); }
-        menuBtn.addEventListener('click', toggleMenu);
-        menuLinks.forEach(link => { link.addEventListener('click', toggleMenu); });
-    </script>
+    <!-- Модальное окно для аутентификации -->
+    <div id="auth-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span id="close-modal" class="modal-close-button">&times;</span>
+            <h2 class="text-2xl font-bold text-white mb-4 text-center">Войти в аккаунт</h2>
+            <form id="auth-form" class="space-y-4">
+                <div>
+                    <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email:</label>
+                    <input type="email" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600" required>
+                </div>
+                <div>
+                    <label for="password" class="block text-gray-300 text-sm font-bold mb-2">Пароль:</label>
+                    <input type="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600" required>
+                </div>
+                <p id="error-message" class="text-red-500 text-sm text-center"></p>
+                <div class="flex flex-col space-y-3">
+                    <button type="submit" class="btn-primary w-full">Войти</button>
+                    <button type="button" id="auth-toggle" class="btn-secondary w-full">Нет аккаунта? Зарегистрироваться</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Подключение основного JavaScript-файла с логикой Firebase -->
+    <script type="module" src="./src/main.js"></script>
 </body>
 </html>
