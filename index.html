@@ -57,7 +57,7 @@
         }
         /* Основные стили для кнопок */
         .btn-primary {
-            background-color: #6366f1;
+            background-color: #6366f1; /* Фиолетовый */
             color: #ffffff;
             font-weight: 600;
             padding: 0.75rem 1.75rem;
@@ -118,6 +118,71 @@
             font-size: 1.5rem;
             cursor: pointer;
         }
+
+        /* Дополнительные стили для главной страницы (из PDF) */
+        @keyframes gradient-animation { 0% { background-position: 0% 50%; } 50% {
+            background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes pulse-glow { 0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.3), 0 0
+            20px rgba(59, 130, 246, 0.2); } 50% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.5), 0
+            0 50px rgba(59, 130, 246, 0.4); } 100% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.3),
+            0 0 20px rgba(59, 130, 246, 0.2); } }
+        .animated-gradient { background: linear-gradient(-45deg, #020617, #030712,
+            #111827, #082f49); background-size: 400% 400%; animation: gradient-animation 15s
+            ease infinite; }
+        .card-glow { animation: pulse-glow 4s ease-in-out infinite; }
+
+        /* Стили для модального окна комментариев */
+        #comment-modal .modal-content {
+            max-width: 900px; /* Шире для двух колонок */
+            display: flex; /* Используем flexbox для колонок */
+            flex-direction: column; /* По умолчанию колонки на мобильных */
+            gap: 1.5rem;
+        }
+        @media (min-width: 768px) { /* На десктопе - две колонки */
+            #comment-modal .modal-content {
+                flex-direction: row;
+            }
+        }
+        #comment-modal .modal-left-panel {
+            flex: 1; /* Занимает 1 часть пространства */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background-color: #0f172a; /* Темнее фон для левой панели */
+            border-radius: 0.75rem;
+        }
+        #comment-modal .modal-right-panel {
+            flex: 1.5; /* Занимает 1.5 части пространства */
+            padding: 1rem;
+            background-color: #1a202c; /* Чуть светлее фон для правой панели */
+            border-radius: 0.75rem;
+            display: flex;
+            flex-direction: column;
+        }
+        #comment-modal .comments-list-modal {
+            flex-grow: 1; /* Список комментариев занимает доступное место */
+            overflow-y: auto; /* Прокрутка для комментариев */
+            max-height: 400px; /* Ограничиваем высоту списка */
+            padding-right: 0.5rem; /* Для скроллбара */
+        }
+        #comment-modal .comments-list-modal::-webkit-scrollbar {
+            width: 8px;
+        }
+        #comment-modal .comments-list-modal::-webkit-scrollbar-track {
+            background: #334155;
+            border-radius: 10px;
+        }
+        #comment-modal .comments-list-modal::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 10px;
+        }
+        #comment-modal .comment-input-form {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #334155;
+        }
     </style>
 </head>
 <body class="animated-gradient text-gray-300 font-sans overflow-x-hidden relative">
@@ -176,13 +241,24 @@
         </ul>
     </div>
 
-    <main class="flex-grow pt-20"> <!-- Добавлен padding-top для фикс. шапки -->
-        <!-- Секция Героя -->
-        <section class="h-screen flex items-center justify-center text-center relative">
-            <div class="container mx-auto px-6 z-10">
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white uppercase tracking-wider leading-tight">Digital <span class="text-blue-500">Aura</span><br>Physical Form</h1>
-                <p class="mt-4 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">Мы создаем цифровую моду с помощью искусственного интеллекта. Каждое изделие это уникальный синтез алгоритмов и эстетики.</p>
-                <a href="#collection" class="mt-8 inline-block bg-blue-600/80 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 hover:bg-blue-500 hover:shadow-glow-blue-strong hover:scale-105">Исследовать Коллекцию</a>
+    <main class="flex-grow pt-20">
+        <!-- Секция Героя (Обновленный дизайн) -->
+        <section id="hero" class="py-20 px-4 text-center bg-gradient-to-br from-blue-700 via-purple-700 to-pink-700 shadow-inner rounded-b-3xl">
+            <div class="container mx-auto">
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white uppercase tracking-wider">
+                    LUMINIXIS
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
+                    AI-crafted fashion & digital art. Where innovation meets wearable dreams.
+                </p>
+                <div class="space-x-4">
+                    <a href="#collection" class="btn-primary inline-block">
+                        Исследовать Коллекцию
+                    </a>
+                    <a href="#about" class="btn-secondary inline-block">
+                        Узнать больше
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -329,6 +405,32 @@
                     <button type="button" id="auth-toggle" class="btn-secondary w-full">Нет аккаунта? Зарегистрироваться</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно для комментариев -->
+    <div id="comment-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span id="close-comment-modal" class="modal-close-button">&times;</span>
+            <!-- Левая панель: NFT-карточка в увеличенном виде -->
+            <div class="modal-left-panel">
+                <img id="modal-nft-image" src="" alt="NFT Image" class="w-full h-auto object-contain rounded-lg mb-4">
+                <h3 id="modal-nft-name" class="text-2xl font-semibold text-white text-center mb-2"></h3>
+                <p id="modal-nft-description" class="text-gray-400 text-sm text-center mb-2"></p>
+                <span id="modal-nft-price" class="text-xl font-bold text-blue-400 text-center"></span>
+            </div>
+            <!-- Правая панель: Комментарии и форма -->
+            <div class="modal-right-panel">
+                <h4 class="text-white font-semibold mb-4 text-xl border-b border-gray-600 pb-2">Комментарии</h4>
+                <div id="modal-comments-list" class="comments-list-modal text-gray-300 text-sm space-y-3 flex-grow">
+                    <!-- Комментарии будут загружены сюда -->
+                </div>
+                <div id="modal-add-comment-form" class="comment-input-form">
+                    <input type="text" id="modal-comment-input" placeholder="Добавить комментарий..." class="w-full p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="modal-send-comment-button" class="btn-primary mt-2 w-full text-sm">Отправить</button>
+                    <p id="modal-comment-auth-message" class="text-gray-500 text-xs mt-2 text-center hidden">Войдите, чтобы оставлять комментарии.</p>
+                </div>
+            </div>
         </div>
     </div>
 
